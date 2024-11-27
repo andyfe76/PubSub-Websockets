@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+   <head>
+      <script type="text/javascript">
+        var socket = new WebSocket('ws://localhost:9001');
+        socket.onopen = function(event) {
+            console.log('WS connected');
+            socket.send('sub' + String.fromCharCode(30) + 'app');
+            //socket.send('connected')
+        }
+        socket.onmessage = function(message) {
+            split = message.data.split(String.fromCharCode(30));
+            channel = split[0]
+            message = split[1]
+            console.log(channel, message)
+            document.getElementById('log').innerHTML += channel + ': ' + message + '<br>';
+        }
+
+        </script>
+   </head>
+    <body>
+        <h1>Socket</h1>
+        <h2>Receive:</h2>
+        <div id="log"></div>
+   </body>
+</html>
